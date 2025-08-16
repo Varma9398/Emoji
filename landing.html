@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/_vercel/insights/script.js"></script>
+    <title>Moodies — Advanced Emoji Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #ff9a62;
+            --accent-hover: #e88a52;
+            --bg-gradient-1: #ffefba;
+            --bg-gradient-2: #d5e3ff;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #fff;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        section {
+            padding: 60px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .floating-emojis {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-emoji {
+            position: absolute;
+            opacity: 0.2;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+        
+        .hero-content {
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff9a62, #ffcd8a, #a5d8ff, #ff9a62);
+            z-index: -1;
+            border-radius: calc(var(--border-radius) + 5px);
+            opacity: 0.7;
+            filter: blur(15px);
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% {
+                opacity: 0.5;
+                filter: blur(15px);
+            }
+            100% {
+                opacity: 0.8;
+                filter: blur(20px);
+            }
+        }
+        
+        .hero h1 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .editor-mockup {
+            max-width: 100%;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 154, 98, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff9a62, #ffcd8a, #ff9a62);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 154, 98, 0.6);
+        }
+        
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+        
+        /* Features Section */
+        .features {
+            text-align: center;
+            background-color: var(--white);
+        }
+        
+        .section-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 0 auto;
+        }
+        
+        .feature-item {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            text-align: left;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        /* Demo Section */
+        .demo-section {
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        
+        .mini-canvas {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .demo-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .demo-button {
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            background-color: var(--white);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .remix-button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .remix-button:hover {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        /* Social Proof Section */
+        .social-proof {
+            background: linear-gradient(135deg, var(--bg-gradient-2), var(--bg-gradient-1));
+            text-align: center;
+        }
+        
+        .testimonials-container {
+            margin-top: 40px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            max-width: 350px;
+            text-align: left;
+        }
+        
+        .testimonial-content {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .author-info h4 {
+            margin: 0;
+            color: var(--text-dark);
+        }
+        
+        .author-info p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* Final CTA Section */
+        .final-cta {
+            text-align: center;
+            padding: 100px 20px;
+            background-color: var(--white);
+        }
+        
+        .final-cta h2 {
+            font-family: 'Baloo 2', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+        
+        .final-cta .cta-button {
+            font-size: 1.5rem;
+            padding: 20px 40px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 154, 98, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 154, 98, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 154, 98, 0);
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: var(--white);
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Baloo 2', cursive;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        .built-in-public {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 20px;
+        }
+        
+        /* Image Scroll Containers */
+        .image-scroll-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .image-scroll-left, .image-scroll-right {
+            position: absolute;
+            display: flex;
+            height: 120px;
+            opacity: 0.15;
+        }
+        
+        .image-scroll-left {
+            top: 15%;
+            animation: scrollLeft 60s linear infinite;
+        }
+        
+        .image-scroll-right {
+            bottom: 15%;
+            animation: scrollRight 60s linear infinite;
+        }
+        
+        .image-scroll-left img, .image-scroll-right img {
+            height: 100%;
+            margin: 0 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        @keyframes scrollRight {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content {
+                padding: 30px;
+            }
+            
+            .feature-grid, .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="image-scroll-container">
+            <div class="image-scroll-left">
+                <!-- Images will be loaded via JavaScript -->
+            </div>
+            <div class="image-scroll-right">
+                <!-- Images will be loaded via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <h1>Design Fun Emojis. Share Instantly.</h1>
+            <p>Create unique emoji-based designs in seconds — with powerful text tools and exports.</p>
+            <a href="index.html" class="cta-button">🎨 Start Designing Now</a>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why You'll Love It</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>50+ Custom Emojis</h3>
+                    <p>Designed for indie builders & storytellers.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🖋️</div>
+                    <h3>Powerful Text Tools</h3>
+                    <p>Fonts, colors, shadows, letter spacing & more.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Text Layers</h3>
+                    <p>Put text in front or behind your emojis.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📤</div>
+                    <h3>One-Click Export</h3>
+                    <p>PNG, JPG, or SVG — ready to share.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Demo Section -->
+    <section class="demo-section">
+        <div class="container">
+            <h2 class="section-title">Try It Now</h2>
+            <div class="mini-canvas">
+                <img src="images/1.png" alt="Demo Emoji" id="demoEmoji" style="width: 150px; height: 150px;">
+                <div id="demoText" style="font-family: 'Poppins', sans-serif; font-size: 24px; color: #333; margin-top: 20px;">Add your text here</div>
+                
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="changeEmoji()">Change Emoji</button>
+                    <button class="demo-button" onclick="changeFont()">Change Font</button>
+                    <button class="demo-button" onclick="changeColor()">Change Color</button>
+                    <button class="demo-button" onclick="alert('In the full editor, you can export your creation in various formats!')">Export</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Made With Moodies</h2>
+            <div class="gallery-grid">
+                <!-- Gallery items will be generated dynamically -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Social Proof Section -->
+    <section class="social-proof">
+        <div class="container">
+            <h2 class="section-title">Loved by indie creators and build-in-public makers</h2>
+            <div class="testimonials-container">
+                <div class="testimonials" id="testimonials-container">
+                    <!-- Testimonials will be generated dynamically -->
+                </div>
+            </div>
+            <p style="margin-top: 40px; font-weight: 500;">Share your creations with #MadeWithMoodies</p>
+        </div>
+    </section>
+    
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Start Designing</h2>
+            <a href="index.html" class="cta-button">🎨 Launch Editor</a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Moodies</div>
+            <div class="social-links">
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="GitHub">🐙</a>
+            </div>
+            <p>© 2025 Moodies. All rights reserved.</p>
+            <p class="built-in-public">Proudly built in public ✨</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to load all images from the images folder
+        function loadImages() {
+            const leftContainer = document.querySelector('.image-scroll-left');
+            const rightContainer = document.querySelector('.image-scroll-right');
+            
+            // Create image elements for both containers
+            for (let i = 1; i <= 36; i++) {
+                // Left scroll container
+                const imgLeft = document.createElement('img');
+                imgLeft.src = `images/${i}.png`;
+                imgLeft.alt = `Emoji ${i}`;
+                leftContainer.appendChild(imgLeft);
+                
+                // Right scroll container
+                const imgRight = document.createElement('img');
+                imgRight.src = `images/${37-i}.png`; // Reverse order for variety
+                imgRight.alt = `Emoji ${37-i}`;
+                rightContainer.appendChild(imgRight);
+            }
+            
+            // Clone the images for seamless scrolling
+            const leftImages = leftContainer.innerHTML;
+            const rightImages = rightContainer.innerHTML;
+            
+            leftContainer.innerHTML = leftImages + leftImages;
+            rightContainer.innerHTML = rightImages + rightImages;
+            
+            // Generate gallery items
+            generateGallery();
+        }
+        
+        // Function to generate gallery items
+        function generateGallery() {
+            const galleryGrid = document.querySelector('.gallery-grid');
+            const numItems = 8; // Number of gallery items to create
+            
+            for (let i = 1; i <= numItems; i++) {
+                // Use random emojis from our collection
+                const randomEmojiNum = Math.floor(Math.random() * 36) + 1;
+                
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                
+                const img = document.createElement('img');
+                img.src = `images/${randomEmojiNum}.png`;
+                img.alt = `Gallery Example ${i}`;
+                img.dataset.emojiId = randomEmojiNum;
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'gallery-overlay';
+                
+                const remixButton = document.createElement('a');
+                remixButton.href = '#';
+                remixButton.className = 'remix-button';
+                remixButton.textContent = 'Remix This';
+                remixButton.onclick = function(e) {
+                    e.preventDefault();
+                    const emojiId = this.closest('.gallery-item').querySelector('img').dataset.emojiId;
+                    window.location.href = `index.html?emoji=${emojiId}`;
+                };
+                
+                overlay.appendChild(remixButton);
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(overlay);
+                galleryGrid.appendChild(galleryItem);
+            }
+        }
+        
+        // Demo functionality
+        let currentEmojiIndex = 1;
+        const fonts = ['Poppins', 'Baloo 2', 'Arial', 'Verdana', 'Georgia'];
+        let currentFontIndex = 0;
+        const colors = ['#333', '#ff9a62', '#4a6bff', '#ff4a4a', '#4aff91'];
+        let currentColorIndex = 0;
+        
+        function changeEmoji() {
+            currentEmojiIndex = (currentEmojiIndex % 36) + 1;
+            document.getElementById('demoEmoji').src = `images/${currentEmojiIndex}.png`;
+        }
+        
+        function changeFont() {
+            currentFontIndex = (currentFontIndex + 1) % fonts.length;
+            document.getElementById('demoText').style.fontFamily = fonts[currentFontIndex];
+        }
+        
+        function changeColor() {
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            document.getElementById('demoText').style.color = colors[currentColorIndex];
+        }
+        
+        // Generate testimonials
+        function generateTestimonials() {
+            const testimonialContainer = document.getElementById('testimonials-container');
+            
+            // Names for testimonials
+            const names = [
+                'Sarah Johnson', 'Mark Williams', 'Jessica Chen', 'David Kim', 'Emily Rodriguez', 
+                'Michael Brown', 'Sophia Lee', 'James Wilson', 'Olivia Martinez', 'Daniel Taylor',
+                'Emma Anderson', 'Noah Garcia', 'Ava Thomas', 'William Hernandez', 'Mia Moore',
+                'Alexander Jackson', 'Charlotte Lewis', 'Benjamin White', 'Amelia Harris', 'Ethan Clark',
+                'Harper Young', 'Lucas Allen', 'Abigail Scott', 'Mason Green', 'Ella Baker',
+                'Logan Nelson', 'Sofia Mitchell', 'Elijah Carter', 'Avery Perez', 'Aiden Roberts',
+                'Scarlett Campbell', 'Jacob Evans', 'Victoria Turner', 'Matthew Phillips', 'Riley Parker',
+                'Jack Edwards', 'Layla Collins', 'Owen Stewart', 'Chloe Morris', 'Luke Murphy',
+                'Zoey Rivera', 'Gabriel Reed', 'Lily Cooper', 'Isaac Bailey', 'Hannah Rogers',
+                'Wyatt Bell', 'Nora Cox', 'Levi Howard', 'Audrey Ward', 'Henry Foster'
+            ];
+            
+            // Professions for testimonials
+            const professions = [
+                'Indie Game Developer', 'Content Creator', 'Startup Founder', 'UX Designer', 'Product Manager',
+                'Social Media Influencer', 'Graphic Designer', 'Web Developer', 'Marketing Specialist', 'Entrepreneur',
+                'App Developer', 'Digital Artist', 'Community Manager', 'Twitch Streamer', 'YouTuber',
+                'Indie Hacker', 'UI Designer', 'Brand Strategist', 'Illustrator', 'Podcast Host',
+                'Educator', 'Freelancer', 'Tech Blogger', 'E-commerce Owner', 'Creative Director'
+            ];
+            
+            // Testimonial contents
+            const testimonialContents = [
+                '"This emoji editor is exactly what I needed for my indie project! So easy to use and the results look professional."',
+                '"I use Moodies for all my social media posts now. The text layering feature is a game-changer!"',
+                '"The emoji editor is highly recommended for all your creative needs!"',
+                '"The ability to customize emojis has transformed my brand\'s social presence. My followers love it!"',
+                 '"As a non-designer, I was amazed at how quickly I could create professional-looking graphics."',
+                 '"The text layering feature is brilliant! I can create memes and promotional content in seconds."',
+                 '"I\'ve tried many emoji editors, but Moodies is by far the most intuitive and feature-rich."',
+                 '"My students love the creative projects we can make with Moodies. It\'s become a classroom favorite!"',
+                '"The export options are perfect - I can create assets for all my different platforms in one go."',
+                '"I appreciate how lightweight and fast this tool is. No lag even with complex designs."',
+                '"As someone building in public, I use Moodies daily to share my progress in a fun, engaging way."',
+                 '"The font selection is impressive! I can match my brand style perfectly every time."',
+                 '"This has saved me so much time creating custom emojis for my app\'s onboarding flow."',
+                 '"I love how I can position text behind or in front of emojis - opens up so many creative possibilities!"',
+                 '"My podcast cover art has never looked better. Thanks Moodies!"',
+                '"The shadow effects and color options make my designs pop on social media."',
+                '"I\'ve actually generated revenue by creating custom emoji packs for clients using Moodies."',
+                '"Perfect tool for quick iteration on visual ideas without getting stuck in complex design software."',
+                '"My marketing team uses this daily for our social campaigns. Such a time-saver!"',
+                '"The interface is so clean and focused - exactly what I need to be productive."',
+                '"I appreciate how quickly I could start creating immediately."',
+                '"This tool has the perfect balance of simplicity and powerful features."',
+                '"As a non-English speaker, I find the visual interface very intuitive and easy to use."',
+                 '"The ability to combine multiple emojis with custom text has elevated my brand\'s visual identity."',
+                '"I use Moodies to create custom reactions for my Discord community - they love it!"',
+                '"This has become an essential part of my content creation workflow."',
+                '"The speed at which I can create and iterate on designs is incredible."',
+                '"My newsletter engagement increased after I started using Moodies for custom headers."',
+                 '"I\'m not a designer, but Moodies makes me feel like one!"',
+                '"Perfect for creating quick visual explanations for my technical blog posts."',
+                '"The text formatting options are surprisingly comprehensive for such a focused tool."',
+                '"I\'ve recommended Moodies to everyone in my mastermind group - it\'s that good!"',
+                '"Creating consistent visual branding across platforms has never been easier."',
+                '"As a solo founder, tools like this that save me time are absolutely invaluable."',
+                '"I use Moodies to create custom emotes for my Twitch channel - my subscribers love them!"',
+                '"The ability to quickly iterate on visual ideas has improved my product development process."',
+                '"I appreciate that this tool focuses on doing one thing extremely well."',
+                '"My team\'s Slack has been transformed with our custom Moodies creations!"',
+                '"This tool has helped me develop a distinctive visual style for my content."',
+                '"I use Moodies for creating visual metaphors that explain complex concepts in my courses."',
+                '"The perfect balance of fun and professional - exactly what my brand needed."',
+                 '"I\'ve created an entire brand identity system using just Moodies - it\'s that versatile!"',
+                '"My engagement rates have increased significantly since I started using custom Moodies graphics."',
+                '"This tool has sparked so much creativity in how I communicate with my audience."',
+                '"I love that I can create consistent emoji styles across all my marketing materials."',
+                '"As someone with limited design skills, Moodies has been a game-changer for my business."',
+                 '"The simplicity of the interface belies the power of what you can create with it."',
+                 '"I\'ve actually had people ask me which design agency I use - it\'s just me and Moodies!"',
+                '"This tool has helped me develop a unique visual language for my brand."',
+                '"I can\'t believe this is free. The value it provides is incredible!"'
+            ];
+            
+            // Create 50 testimonials
+            for (let i = 0; i < 50; i++) {
+                const nameIndex = i % names.length;
+                const professionIndex = i % professions.length;
+                const contentIndex = i % testimonialContents.length;
+                
+                const testimonialCard = document.createElement('div');
+                testimonialCard.className = 'testimonial-card';
+                
+                testimonialCard.innerHTML = `
+                    <p class="testimonial-content">${testimonialContents[contentIndex]}</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>${names[nameIndex]}</h4>
+                            <p>${professions[professionIndex]}</p>
+                        </div>
+                    </div>
+                `;
+                
+                testimonialContainer.appendChild(testimonialCard);
+            }
+        }
+        
+        // Load images and initialize page when ready
+        document.addEventListener('DOMContentLoaded', function() {
+            loadImages();
+            generateTestimonials();
+        });
+    </script>
+</body>
+</html>
