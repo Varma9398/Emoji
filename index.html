@@ -14,57 +14,28 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-  }
-  header {
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 60px 20px 20px;
   }
-  header h1 {
+  h1 {
     font-size: 2.5rem;
     font-weight: 800;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     background: linear-gradient(135deg, #007bff, #6a11cb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  header p {
-    font-size: 1.1rem;
+  p {
+    font-size: 1.2rem;
     color: #333;
     max-width: 640px;
-    margin: 0 auto;
+    margin-bottom: 40px;
     line-height: 1.5;
   }
-  .hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    text-align: center;
-  }
-  .slider {
-    width: 320px;
-    height: 320px;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
-    margin-bottom: 32px;
-    position: relative;
-  }
-  .slider img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0; left: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-  .slider img.active { opacity: 1; }
   .cta-btn {
-    padding: 14px 32px;
-    font-size: 1.1rem;
+    padding: 16px 36px;
+    font-size: 1.2rem;
     font-weight: 600;
     border-radius: 12px;
     background: linear-gradient(135deg, #007bff, #6a11cb);
@@ -78,8 +49,8 @@
     box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   }
   footer {
-    text-align: center;
-    padding: 20px;
+    position: absolute;
+    bottom: 20px;
     font-size: 0.9rem;
     color: #444;
   }
@@ -87,45 +58,17 @@
 </head>
 <body>
 
-<header>
-  <h1>50 Goal & Shareable Card Templates</h1>
-  <p>Create beautiful, ready-to-share milestone and goal cards in seconds. Perfect for social posts, community updates, and tracking your progress.</p>
-</header>
-
-<div class="hero">
-  <div class="slider" id="slider">
-  <img src="slide1.jpg" class="active" />
-  <img src="slide2.jpg" />
-  <img src="slide3.jpg" />
-  <img src="slide4.jpg" />
-  <img src="slide5.jpg" />
-  <img src="slide6.jpg" />
-  <img src="slide7.jpg" />
-  <img src="slide8.jpg" />
-  <img src="slide9.jpg" />
-</div>
-  <button class="cta-btn" onclick="redirectToPayment()">🚀 Start Using</button>
-</div>
+<h1>50 Goal & Shareable Card Templates</h1>
+<p>Create beautiful, ready-to-share milestone and goal cards in seconds. Perfect for social posts, community updates, and tracking your progress.</p>
+<button class="cta-btn" onclick="goToApp()">🚀 Start Using</button>
 
 <footer>
   © 2025 Card Templates Tool — All rights reserved.
 </footer>
 
 <script>
-const slides = document.querySelectorAll('#slider img');
-let current = 0;
-
-function showNextSlide() {
-  slides[current].classList.remove('active');
-  current = (current + 1) % slides.length;
-  slides[current].classList.add('active');
-}
-
-// change slide every 3 seconds
-setInterval(showNextSlide, 3000);
-
-function redirectToPayment() {
-  window.location.href = "https://test.checkout.dodopayments.com/buy/pdt_BMeSpuM0OR6AJB8Mjoe3l?quantity=1";
+function goToApp() {
+  window.location.href = "app.html"; // redirect to the editor app
 }
 </script>
 
