@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>50 Goal & Shareable Card Templates — Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #f8f9fa;
+      font-family: Inter, system-ui, Arial, sans-serif;
+      color: #111;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      gap: 24px;
+      min-height: calc(100vh - 80px);
+    }
+    
+    /* Templates Column */
+    .templates-section {
+      border-right: 1px solid #e9ecef;
+      padding-right: 20px;
+    }
+    
+    .templates-section h3 {
+      margin: 0 0 16px 0;
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+    }
+    
+    .templates-scroll {
+      height: calc(100vh - 180px);
+      overflow-y: auto;
+      margin: -8px;
+      padding: 8px;
+    }
+    
+    .templates-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .templates-scroll::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    .templates-scroll::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+    }
+    
+    .templates-scroll::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
+    
+    .tpl {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 4px;
+    }
+    
+    .tpl:hover {
+      background: #f8f9fa;
+    }
+    
+    .tpl.active {
+      background: #e3f2fd;
+    }
+    
+    .tpl .badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .tpl .meta {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .tpl .meta .title {
+      font-weight: 500;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .tpl .meta .sub {
+      font-size: 10px;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Preview Column */
+    .preview-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .canvas {
+      width: 350px;
+      height: 350px;
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+    
+    .icon {
+      font-size: 42px;
+      margin-bottom: 16px;
+    }
+    
+    .big {
+      font-weight: 800;
+      font-size: 42px;
+      margin: 0 0 8px 0;
+      line-height: 1;
+    }
+    
+    .small {
+      font-size: 14px;
+      color: rgba(16,24,40,0.7);
+      margin: 0;
+    }
+    
+    /* Editor Column */
+    .editor-section {
+      border-left: 1px solid #e9ecef;
+      padding-left: 20px;
+    }
+    
+    .editor-section h3 {
+      margin: 0 0 16px 0;
+      font-weight: 600;
+      font-size: 16px;
+      color: #333;
+    }
+    
+    .field {
+      margin-bottom: 16px;
+    }
+    
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    
+    input[type=text], select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      background: white;
+      font-size: 14px;
+    }
+    
+    input[type=text]:focus, select:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+    
+    .swatch {
+      width: 100%;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    
+    .swatch:hover {
+      border-color: #007bff;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #007bff;
+      background: #007bff;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    button:hover {
+      background: #0056b3;
+    }
+    
+    .muted-btn {
+      background: white;
+      color: #666;
+      border-color: #ddd;
+    }
+    
+    .muted-btn:hover {
+      background: #f8f9fa;
+    }
+    
+    .tiny {
+      font-size: 11px;
+      padding: 6px 10px;
+    }
+    
+    .footer {
+      font-size: 11px;
+      color: #666;
+      margin-top: 16px;
+      line-height: 1.4;
+    }
+    
+    #selectedTemplate {
+      font-weight: 600;
+      color: #007bff;
+      font-size: 14px;
+      padding: 8px 0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .container {
+        grid-template-columns: 250px 1fr 280px;
+        gap: 20px;
+      }
+      
+      .canvas {
+        width: 320px;
+        height: 320px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .container {
+        margin: 10px;
+        padding: 15px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 180px auto 300px;
+        gap: 20px;
+        min-height: calc(100vh - 40px);
+      }
+      
+      .templates-section {
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+        padding-right: 0;
+        padding-bottom: 15px;
+      }
+      
+      .templates-scroll {
+        height: 140px;
+      }
+      
+      .editor-section {
+        border-left: none;
+        border-top: 1px solid #e9ecef;
+        padding-left: 0;
+        padding-top: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Templates Column -->
+    <div class="templates-section">
+      <h3>Templates (50)</h3>
+      <div class="templates-scroll">
+        <div class="templates" id="templateList"></div>
+      </div>
+    </div>
+
+    <!-- Preview Column -->
+    <div class="preview-section">
+      <div class="canvas" id="previewCard" aria-label="Card preview">
+        <div class="card-inner" id="cardInner">
+          <div class="icon" id="cardIcon">⚡</div>
+          <h1 class="big" id="cardBig">Fast Mastery System</h1>
+          <div class="small" id="cardSmall">System Completed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor Column -->
+    <div class="editor-section">
+      <h3>Editor</h3>
+      
+      <div class="field">
+        <label>Template</label>
+        <div id="selectedTemplate">Fast Mastery System</div>
+      </div>
+
+      <div class="field">
+        <label>Icon / Emoji / SVG</label>
+        <input id="inputIcon" type="text" value="⚡"/>
+      </div>
+      
+      <div class="field">
+        <label>Headline (big)</label>
+        <input id="inputBig" type="text" value="Fast Mastery System"/>
+      </div>
+      
+      <div class="field">
+        <label>Subtext (small)</label>
+        <input id="inputSmall" type="text" value="System Completed"/>
+      </div>
+
+      <div class="field">
+        <label>Gradient Theme</label>
+        <div class="presets" id="gradients"></div>
+      </div>
+
+      <div class="field">
+        <label>Typography</label>
+        <select id="fontSelect">
+          <option value="Inter">Inter (Clean)</option>
+          <option value="Playfair Display">Playfair (Serif)</option>
+        </select>
+      </div>
+      
+      <div class="field">
+        <label>Font Size</label>
+        <input id="sizeBig" type="text" placeholder="42" value="42"/>
+      </div>
+
+      <div class="field">
+        <label>Effects</label>
+        <div class="controls">
+          <button id="toggleGlass" class="muted-btn tiny">Toggle Glass</button>
+          <button id="toggleShadow" class="muted-btn tiny">Toggle Shadow</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Actions</label>
+        <div class="controls">
+          <button id="downloadBtn">📥 Download PNG</button>
+          <button id="copyLinkBtn" class="muted-btn">🔗 Copy Data URL</button>
+        </div>
+      </div>
+
+      <div class="footer">
+        Click a template to load presets. Use Download to create shareable image.
+      </div>
+    </div>
+  </div>
+
+  <!-- html2canvas CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    // Template data (50) based on your provided list + expansions
+    const templates = [
+      // 1-10 Milestones & Achievements
+      {id:1,title:'Followers Badge',cat:'Milestone',icon:'👤',big:'600',small:'Followers',grad:['#7ee8fa','#eec0c6']},
+      {id:2,title:'Revenue Tracker',cat:'Milestone',icon:'💰',big:'₹50,000',small:'MRR Reached',grad:['#ffecd2','#fcb69f']},
+      {id:3,title:'Launch Day',cat:'Milestone',icon:'🚀',big:'Launched!',small:'Product Hunt',grad:['#a1c4fd','#c2e9fb']},
+      {id:4,title:'First 100 Users',cat:'Milestone',icon:'🎯',big:'100',small:'Users',grad:['#f6d365','#fda085']},
+      {id:5,title:'Downloads Milestone',cat:'Milestone',icon:'📱',big:'10K',small:'Downloads',grad:['#c2e9fb','#a1c4fd']},
+      {id:6,title:'Subscriber Growth',cat:'Milestone',icon:'📩',big:'1,000',small:'Subscribers',grad:['#fbc2eb','#a6c1ee']},
+      {id:7,title:'Fast Mastery System',cat:'Milestone',icon:'⚡',big:'Fast Mastery',small:'System Completed',grad:['#cfd9df','#e2ebf0']},
+      {id:8,title:'Learning Streak',cat:'Milestone',icon:'📅',big:'30',small:'Days in a Row',grad:['#d9a7c7','#fffcdc']},
+      {id:9,title:'Goal Unlocked',cat:'Milestone',icon:'🏆',big:'Unlocked',small:'5M Impressions',grad:['#fceabb','#f8b500']},
+      {id:10,title:'Community Growth',cat:'Milestone',icon:'👥',big:'2,000',small:'Discord Members',grad:['#a1c4fd','#c2e9fb']},
+      // 11-20 Analytics & Performance
+      {id:11,title:'Impressions Counter',cat:'Analytics',icon:'👁️',big:'5M',small:'Impressions',grad:['#fbc2eb','#a6c1ee']},
+      {id:12,title:'Engagement Rate',cat:'Analytics',icon:'💬',big:'25%',small:'Engagement',grad:['#f093fb','#f5576c']},
+      {id:13,title:'Growth Graph',cat:'Analytics',icon:'📈',big:'+12%',small:'MoM Growth',grad:['#c2e9fb','#a1c4fd']},
+      {id:14,title:'Conversion Rate',cat:'Analytics',icon:'🧭',big:'4.8%',small:'Conversion',grad:['#fdfbfb','#ebedee']},
+      {id:15,title:'Weekly Growth',cat:'Analytics',icon:'➕',big:'+500',small:'Followers this Week',grad:['#ff9a9e','#fecfef']},
+      {id:16,title:'Top Post Badge',cat:'Analytics',icon:'⭐',big:'Top Post',small:'This Week',grad:['#ffe29f','#ffa99f']},
+      {id:17,title:'Daily Active Users',cat:'Analytics',icon:'🔥',big:'8.2K',small:'DAU',grad:['#f6d365','#fda085']},
+      {id:18,title:'Leaderboard Style',cat:'Analytics',icon:'🏅',big:'Top 5',small:'Indie Hackers',grad:['#a1c4fd','#c2e9fb']},
+      {id:19,title:'Streak Tracker',cat:'Analytics',icon:'🔁',big:'12',small:'Day Streak',grad:['#cfd9df','#e2ebf0']},
+      {id:20,title:'Launch Results Card',cat:'Analytics',icon:'🎉',big:'500',small:'Upvotes',grad:['#fbc2eb','#a6c1ee']},
+      // 21-30 Quotes & Motivation
+      {id:21,title:'Motivational Quote',cat:'Quote',icon:'✨',big:'"Ship often"',small:'— Founder Wisdom',grad:['#f8ffae','#43c6ac']},
+      {id:22,title:'Minimal Quote',cat:'Quote',icon:'❝',big:'Dream. Build. Repeat.',small:'',grad:['#e0c3fc','#8ec5fc']},
+      {id:23,title:'Handwritten Note',cat:'Quote',icon:'✍️',big:'Keep going',small:'You got this',grad:['#fceabb','#f8b500']},
+      {id:24,title:'Daily Affirmation',cat:'Quote',icon:'💪',big:'I can achieve this',small:'Today',grad:['#a18cd1','#fbc2eb']},
+      {id:25,title:'Startup Wisdom',cat:'Quote',icon:'💡',big:'Focus on users',small:'— Product Lead',grad:['#c9ffbf','#ffafbd']},
+      {id:26,title:'Focus Reminder',cat:'Quote',icon:'⏰',big:'Stay Consistent',small:'Do one thing',grad:['#f6d365','#fda085']},
+      {id:27,title:'Pocket Inspiration',cat:'Quote',icon:'📌',big:'Make it simple',small:'Design rule',grad:['#fbc2eb','#a6c1ee']},
+      {id:28,title:'One-Liner Advice',cat:'Quote',icon:'💬',big:'Ship > Perfect',small:'Quick wins',grad:['#c2e9fb','#a1c4fd']},
+      {id:29,title:'Book Quote',cat:'Quote',icon:'📚',big:'Read to grow',small:'— Page 101',grad:['#fdfbfb','#ebedee']},
+      {id:30,title:'Vision Card',cat:'Quote',icon:'🔭',big:'Long Term Vision',small:'5-year plan',grad:['#67b26f','#4ca2cd']},
+      // 31-40 Goals & To-Do
+      {id:31,title:'Goal Tracker',cat:'Goals',icon:'✅',big:'3/3',small:'Checklist',grad:['#a1c4fd','#c2e9fb']},
+      {id:32,title:'Next Big Goal',cat:'Goals',icon:'🎯',big:'10K MRR',small:'Target',grad:['#f6d365','#fda085']},
+      {id:33,title:'Mini Roadmap',cat:'Goals',icon:'🗺️',big:'3 Steps',small:'Roadmap',grad:['#fbc2eb','#a6c1ee']},
+      {id:34,title:'This Week\'s Focus',cat:'Goals',icon:'📌',big:'Ship landing page',small:'Primary goal',grad:['#c2e9fb','#a1c4fd']},
+      {id:35,title:'OKR Style Card',cat:'Goals',icon:'📊',big:'Objective',small:'Key Results',grad:['#e0c3fc','#8ec5fc']},
+      {id:36,title:'SMART Goal Card',cat:'Goals',icon:'🧭',big:'SMART',small:'Specific/Measurable',grad:['#fceabb','#f8b500']},
+      {id:37,title:'Kanban Goal Card',cat:'Goals',icon:'📂',big:'In Progress',small:'3 tasks',grad:['#ffe29f','#ffa99f']},
+      {id:38,title:'Countdown Card',cat:'Goals',icon:'⏳',big:'10 Days',small:'Until Launch',grad:['#f093fb','#f5576c']},
+      {id:39,title:'Yearly Goal Card',cat:'Goals',icon:'📅',big:'2025',small:'Milestone Year',grad:['#cfd9df','#e2ebf0']},
+      {id:40,title:'Habit Tracker',cat:'Goals',icon:'🔵',big:'7/7',small:'Habit Streak',grad:['#c2e9fb','#a1c4fd']},
+      // 41-50 Creative & Brand
+      {id:41,title:'Custom Logo Frame',cat:'Brand',icon:'🏷️',big:'Your Logo',small:'Tagline here',grad:['#fbc2eb','#a6c1ee']},
+      {id:42,title:'Minimal Brand Statement',cat:'Brand',icon:'✦',big:'Brand Slogan',small:'One-liner',grad:['#e0c3fc','#8ec5fc']},
+      {id:43,title:'Launch Poster',cat:'Brand',icon:'🚀',big:'Now Live',small:'Check it out',grad:['#ffecd2','#fcb69f']},
+      {id:44,title:'Retro Notepad',cat:'Brand',icon:'📝',big:'Notes',small:'Retro style',grad:['#fff1e6','#fdebd3']},
+      {id:45,title:'Polaroid Style',cat:'Brand',icon:'📸',big:'Photo',small:'Caption',grad:['#f6d365','#fda085']},
+      {id:46,title:'Gradient Badge',cat:'Brand',icon:'🔰',big:'Badge',small:'Achievement',grad:['#67b26f','#4ca2cd']},
+      {id:47,title:'Achievement Medal',cat:'Brand',icon:'🥇',big:'Gold',small:'Top Performer',grad:['#fdfbfb','#ebedee']},
+      {id:48,title:'Pocket Launch Style',cat:'Brand',icon:'🚀',big:'Pocket Launch',small:'On-brand',grad:['#c2e9fb','#a1c4fd']},
+      {id:49,title:'Calendar Reminder',cat:'Brand',icon:'📆',big:'Oct 24',small:'Event',grad:['#fbc2eb','#a6c1ee']},
+      {id:50,title:'Custom Analytics Card',cat:'Brand',icon:'📊',big:'Metric',small:'Choose metric',grad:['#cfd9df','#e2ebf0']},
+    ];
+
+    const templateList = document.getElementById('templateList');
+    const cardIcon = document.getElementById('cardIcon');
+    const cardBig = document.getElementById('cardBig');
+    const cardSmall = document.getElementById('cardSmall');
+    const inputIcon = document.getElementById('inputIcon');
+    const inputBig = document.getElementById('inputBig');
+    const inputSmall = document.getElementById('inputSmall');
+    const selectedTemplate = document.getElementById('selectedTemplate');
+    const gradientsWrap = document.getElementById('gradients');
+    const previewCard = document.getElementById('previewCard');
+    const cardInner = document.getElementById('cardInner');
+    const fontSelect = document.getElementById('fontSelect');
+    const sizeBig = document.getElementById('sizeBig');
+    const toggleGlass = document.getElementById('toggleGlass');
+    const toggleShadow = document.getElementById('toggleShadow');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+    let current = templates[6]; // default id 7: Fast Mastery
+    let useGlass = true; 
+    let useShadow = true;
+    let activeTemplateEl = null;
+
+    function renderList(){
+      templates.forEach(t => {
+        const el = document.createElement('div'); 
+        el.className = 'tpl';
+        el.innerHTML = `<div class="badge" style="background:linear-gradient(135deg,${t.grad[0]},${t.grad[1]});">${t.icon}</div>
+                        <div class="meta"><div class="title">${t.title}</div><div class="sub">${t.cat} · ${t.big} ${t.small ? '· '+t.small : ''}</div></div>`;
+        el.addEventListener('click', () => loadTemplate(t.id, el));
+        templateList.appendChild(el);
+        if (t.id === current.id) {
+          el.classList.add('active');
+          activeTemplateEl = el;
+        }
+      });
+    }
+
+    function loadTemplate(id, templateEl){
+      // Remove active class from previous template
+      if (activeTemplateEl) {
+        activeTemplateEl.classList.remove('active');
+      }
+      
+      // Add active class to current template
+      if (templateEl) {
+        templateEl.classList.add('active');
+        activeTemplateEl = templateEl;
+      }
+      
+      current = templates.find(x => x.id === id);
+      inputIcon.value = current.icon;
+      inputBig.value = current.big;
+      inputSmall.value = current.small;
+      selectedTemplate.textContent = current.title;
+      applyGradient(current.grad);
+      updatePreview();
+    }
+
+    function applyGradient(grad){
+      cardInner.style.background = `linear-gradient(135deg, ${grad[0]}, ${grad[1]})`;
+    }
+
+    function updatePreview(){
+      cardIcon.textContent = inputIcon.value || current.icon;
+      cardBig.textContent = inputBig.value || current.big;
+      cardSmall.textContent = inputSmall.value || current.small;
+      cardBig.style.fontSize = (parseInt(sizeBig.value) || 42) + 'px';
+      cardInner.style.fontFamily = fontSelect.value + ', Inter, system-ui';
+      // glass toggle
+      if(useGlass) cardInner.style.backdropFilter = 'blur(6px) saturate(120%)'; else cardInner.style.backdropFilter = 'none';
+      // shadow toggle
+      previewCard.style.boxShadow = useShadow ? '0 8px 25px rgba(0,0,0,0.15)' : 'none';
+    }
+
+    // build gradient swatches
+    const gradientPresets = [
+      ['#7ee8fa','#eec0c6'],['#ffecd2','#fcb69f'],['#a1c4fd','#c2e9fb'],['#fbc2eb','#a6c1ee'],['#f6d365','#fda085'],['#c2e9fb','#a1c4fd'],['#cfd9df','#e2ebf0'],['#fdfbfb','#ebedee'],['#67b26f','#4ca2cd'],['#f8ffae','#43c6ac']
+    ];
+    gradientPresets.forEach(g => {
+      const sw = document.createElement('div'); 
+      sw.className = 'swatch'; 
+      sw.style.background = `linear-gradient(135deg, ${g[0]}, ${g[1]})`;
+      sw.addEventListener('click', () => {
+        applyGradient(g); 
+        current.grad = g;
+      }); 
+      gradientsWrap.appendChild(sw);
+    });
+
+    // wire inputs
+    inputIcon.addEventListener('input', updatePreview);
+    inputBig.addEventListener('input', updatePreview);
+    inputSmall.addEventListener('input', updatePreview);
+    fontSelect.addEventListener('change', updatePreview);
+    sizeBig.addEventListener('change', updatePreview);
+    sizeBig.addEventListener('input', updatePreview);
+    
+    toggleGlass.addEventListener('click', () => {
+      useGlass = !useGlass; 
+      toggleGlass.classList.toggle('muted-btn'); 
+      updatePreview();
+    });
+    
+    toggleShadow.addEventListener('click', () => {
+      useShadow = !useShadow; 
+      toggleShadow.classList.toggle('muted-btn'); 
+      updatePreview();
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      const scale = 2;
+      const canvas = await html2canvas(previewCard, {scale:scale, backgroundColor:null, allowTaint:true});
+      const link = document.createElement('a'); 
+      link.download = (current.title || 'card').replace(/\s+/g,'-').toLowerCase()+'.png';
+      link.href = canvas.toDataURL('image/png'); 
+      link.click();
+    });
+
+    copyLinkBtn.addEventListener('click', async () => {
+      const canvas = await html2canvas(previewCard, {scale:1, backgroundColor:null});
+      const dataUrl = canvas.toDataURL('image/png');
+      await navigator.clipboard.writeText(dataUrl);
+      copyLinkBtn.textContent = 'Copied!'; 
+      setTimeout(() => copyLinkBtn.textContent='🔗 Copy Data URL', 1500);
+    });
+
+    // initial render
+    renderList(); 
+    loadTemplate(current.id); 
+    updatePreview();
+
+    // Accessibility: keyboard nav for templates
+    document.addEventListener('keydown', e => {
+      if(e.key === 'ArrowRight'){ 
+        let idx = templates.findIndex(t => t.id === current.id); 
+        if(idx < templates.length-1) loadTemplate(templates[idx+1].id);
+      }
+      if(e.key === 'ArrowLeft'){
+        let idx = templates.findIndex(t => t.id === current.id); 
+        if(idx > 0) loadTemplate(templates[idx-1].id);
+      }
+    });
+  </script>
+</body>
+</html>
