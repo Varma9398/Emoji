@@ -79,6 +79,30 @@
     z-index: 10;
   }
 
+  /* Product Hunt Badge */
+  .ph-badge {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 100;
+    transition: transform 0.2s ease;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+  }
+
+  .ph-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .ph-badge img {
+    display: block;
+    border-radius: 4px;
+  }
+
   /* Main Content */
   .main-content {
     z-index: 5;
@@ -141,6 +165,21 @@
       font-size: 2rem;
       top: 20px;
     }
+
+    .ph-badge {
+      top: 20px;
+      right: 20px;
+      padding: 6px;
+    }
+
+    .ph-badge img {
+      width: 200px !important;
+      height: 43px !important;
+    }
+
+    .ph-badge:hover {
+      transform: scale(1.02);
+    }
     
     h1 {
       font-size: 2rem;
@@ -181,6 +220,13 @@
 
 <!-- Brand Name -->
 <div class="brand-name">CardSnap</div>
+
+<!-- Product Hunt Badge -->
+<div class="ph-badge">
+  <a href="https://www.producthunt.com/products/50-goal-editable-shareable-card-template?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-50&#0045;goal&#0045;editable&#0045;shareable&#0045;card&#0045;template" target="_blank">
+    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1009456&theme=light&t=1756179159571" alt="50&#0032;Goal&#0032;Editable&#0032;Shareable&#0032;Card&#0032;Template - Turn&#0032;Your&#0032;Goals&#0032;into&#0032;Beautiful&#0044;&#0032;Shareable&#0032;Cards&#0032;in&#0032;Seconds&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
+  </a>
+</div>
 
 <!-- Main Content -->
 <div class="main-content">
